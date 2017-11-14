@@ -102,4 +102,10 @@ public class ZeppelinConfigurationTest {
     assertEquals("/usr/lib/zeppelin", conf.getZeppelinHome());
     assertEquals("/usr/lib/zeppelin/conf", conf.getConfDir());
   }
+
+  @Test
+  public void isRequestHeaderSizeDefaultValueCorrect() throws ConfigurationException {
+    ZeppelinConfiguration conf  = new ZeppelinConfiguration(this.getClass().getResource("/zeppelin-site.xml"));
+    assertEquals((Integer)8192, conf.getJettyRequestHeaderSize());
+  }
 }
