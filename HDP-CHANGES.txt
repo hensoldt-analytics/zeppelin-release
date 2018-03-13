@@ -83,3 +83,4 @@ BUG-108849      ZEPPELIN-3539 Add jceks stored password support for LDAP
 BUG-108850      ZEPPELIN-3384 Reduce number of calls that are made to `UserGroupInformation.loginUserFromKeytab` in JDBC interpreter
 BUG-108850      ZEPPELIN-3384 Checkstyle violation.
 BUG-119309      ZEPPELIN-2641 Change encoding to UTF-8 when sending request to Livy
+BUG-119309      ZEPPELIN-3099 Livy Interpreter doesn't support German Special Character - Encoding Issue
