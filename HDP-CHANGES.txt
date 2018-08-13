@@ -28,3 +28,4 @@ BUG-108261:   Fix hadoop-azure dependency conflict
 
 (Jira in Apache Spark is IN PROGRESS)
 ZEPPELIN-3810: Support Spark 2.4
+BUG-124549. [ZEPPELIN-3701].Missing first several '0' and losing digital accuracy in result table
