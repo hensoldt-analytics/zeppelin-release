@@ -11,3 +11,6 @@ BUG-102172:   Include Google Connector in Zeppelin
 BUG-98604:    Correct tutorial link should be added in interpreter page
 BUG-100845:   Remove livy2.pyspark3 interpreter on zeppelin side
 BUG-108261:   Fix hadoop-azure dependency conflict
+
+    BUG-122320. [ZEPPELIN-3701].Missing first several '0' and losing digital
+    accuracy in result table
