@@ -308,6 +308,12 @@ public class NotebookAuthorization {
       public boolean apply(NoteInfo input) {
         return input != null && isReader(input.getId(), entities);
       }
+
+      @Override
+      public boolean test(NoteInfo input){
+        return apply(input);
+      }
+
     }).toList();
   }
   

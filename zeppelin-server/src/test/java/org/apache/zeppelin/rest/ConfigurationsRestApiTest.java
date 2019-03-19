@@ -57,6 +57,11 @@ public class ConfigurationsRestApiTest extends AbstractTestRestApi {
         public boolean apply(String key) {
           return !key.contains("password");
         }
+
+        @Override
+        public boolean test(String key) {
+          return apply(key);
+        }
       }
     ));
   }
@@ -73,6 +78,10 @@ public class ConfigurationsRestApiTest extends AbstractTestRestApi {
           @Override
           public boolean apply(String key) {
             return !key.contains("password") && key.startsWith(prefix);
+          }
+          @Override
+          public boolean test(String key) {
+            return apply(key);
           }
         }
     ));
