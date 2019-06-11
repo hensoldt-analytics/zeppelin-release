@@ -1,5 +1,6 @@
 Changes only in Hortonworks github and not in zeppelin 0.8.0 Apache Release
 
+BUG-120596:   [ZEPPELIN-4188] Upgrade Jetty to 9.4.18.v20190429
 BUG-120594:   ZEPPELIN-4193 Upgrade Bouncy Castle bcpkix-jdk15on to 1.60
 BUG-120593:   [ZEPPELIN-4185] Upgrade Thrift to 0.12.0 (#3376)
 RMP-11730:    Unbundle Zeppelin Notebook from Zeppelin installation.
