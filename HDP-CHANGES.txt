@@ -1,5 +1,6 @@
 Changes only in Hortonworks github and not in zeppelin 0.8.0 Apache Release
 
+BUG-120595:   [ZEPPELIN-4197] Upgrade Jackson to 2.9.9
 BUG-118811:   Upgrade zeppelin com.google.guava:guava 24.1.1
 BUG-120606:   [ZEPPELIN-4187] Bump up version of Scala from 2.11.8 to 2.11.12 (#3378)
 BUG-120605:   [ZEPPELIN-4186] Bump up version of org.jsoup:jsoup (#3377)
