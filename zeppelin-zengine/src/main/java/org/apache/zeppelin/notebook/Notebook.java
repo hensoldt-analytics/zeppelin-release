@@ -689,6 +689,11 @@ public class Notebook implements NoteEventListener {
         public boolean apply(Note input) {
           return input != null && notebookAuthorization.isReader(input.getId(), entities);
         }
+
+        @Override
+        public boolean test(Note input) {
+          return apply(input);
+        }
       }).toSortedList(new Comparator<Note>() {
         @Override
         public int compare(Note note1, Note note2) {
