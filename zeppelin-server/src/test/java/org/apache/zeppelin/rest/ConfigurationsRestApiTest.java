@@ -17,19 +17,18 @@
 
 package org.apache.zeppelin.rest;
 
+import static org.junit.Assert.assertTrue;
+
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import java.io.IOException;
+import java.util.Map;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.util.Map;
-
-import static org.junit.Assert.assertTrue;
 
 public class ConfigurationsRestApiTest extends AbstractTestRestApi {
   Gson gson = new Gson();
@@ -57,6 +56,11 @@ public class ConfigurationsRestApiTest extends AbstractTestRestApi {
         public boolean apply(String key) {
           return !key.contains("password");
         }
+
+        @Override
+        public boolean test(String key) {
+          return apply(key);
+        }
       }
     ));
   }
@@ -73,6 +77,11 @@ public class ConfigurationsRestApiTest extends AbstractTestRestApi {
           @Override
           public boolean apply(String key) {
             return !key.contains("password") && key.startsWith(prefix);
+          }
+
+          @Override
+          public boolean test(String key) {
+            return apply(key);
           }
         }
     ));

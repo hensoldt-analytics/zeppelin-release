@@ -17,13 +17,10 @@
 
 package org.apache.zeppelin.notebook;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import com.google.common.base.Predicate;
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Sets;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -31,7 +28,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.zeppelin.conf.ZeppelinConfiguration;
 import org.apache.zeppelin.conf.ZeppelinConfiguration.ConfVars;
@@ -39,12 +35,6 @@ import org.apache.zeppelin.storage.ConfigStorage;
 import org.apache.zeppelin.user.AuthenticationInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.base.Predicate;
-import com.google.common.collect.FluentIterable;
-import com.google.common.collect.Sets;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 /**
  * Contains authorization information for notes
@@ -382,6 +372,11 @@ public class NotebookAuthorization {
       @Override
       public boolean apply(NoteInfo input) {
         return input != null && isReader(input.getId(), entities);
+      }
+
+      @Override
+      public boolean test(NoteInfo input) {
+        return apply(input);
       }
     }).toList();
   }
