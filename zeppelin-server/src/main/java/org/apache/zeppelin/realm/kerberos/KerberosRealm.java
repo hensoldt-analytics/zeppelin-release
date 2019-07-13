@@ -17,8 +17,11 @@
 
 package org.apache.zeppelin.realm.kerberos;
 
+import static org.apache.hadoop.security.authentication.server.ProxyUserAuthenticationFilter.PROXYUSER_PREFIX;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.security.Groups;
+import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.hadoop.security.authentication.client.AuthenticatedURL;
 import org.apache.hadoop.security.authentication.client.AuthenticationException;
 import org.apache.hadoop.security.authentication.client.KerberosAuthenticator;
@@ -26,6 +29,8 @@ import org.apache.hadoop.security.authentication.server.AuthenticationHandler;
 import org.apache.hadoop.security.authentication.server.AuthenticationToken;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.hadoop.security.authentication.util.*;
+import org.apache.hadoop.security.authorize.ProxyUsers;
+import org.apache.hadoop.util.HttpExceptionUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.SimpleAccount;
@@ -168,6 +173,8 @@ public class KerberosRealm extends AuthorizingRealm {
    */
   private static final String SIGNER_SECRET_PROVIDER = "signer.secret.provider";
 
+  private static final String DO_AS = "doAs";
+
   private static Signer signer = null;
   private SignerSecretProvider secretProvider = null;
   private boolean destroySecretProvider = true;
@@ -265,6 +272,10 @@ public class KerberosRealm extends AuthorizingRealm {
 
       Configuration hadoopConfig = new Configuration();
       hadoopGroups = new Groups(hadoopConfig);
+
+
+      ProxyUsers.refreshSuperUserGroupsConfiguration(hadoopConfig, PROXYUSER_PREFIX);
+
 
     } catch (Exception ex) {
       throw new RuntimeException(ex);
@@ -504,8 +515,36 @@ public class KerberosRealm extends AuthorizingRealm {
                 getCookiePath(), token.getExpires(),
                 isCookiePersistent(), isHttps);
           }
-          KerberosToken kerberosToken = new KerberosToken(token.getUserName(), token.toString());
-          SecurityUtils.getSubject().login(kerberosToken);
+          String doAsUser = httpRequest.getParameter(DO_AS);
+          if (doAsUser != null && !doAsUser.equals(httpRequest.getRemoteUser())) {
+            // doAs is passed, check for permission to impersonate user & create kerberosToken for
+            // end-user
+            LOG.debug("doAsUser = {}, RemoteUser = {} , RemoteAddress = {} ",
+                doAsUser, httpRequest.getRemoteUser(), httpRequest.getRemoteAddr());
+            UserGroupInformation requestUgi = (httpRequest.getUserPrincipal() != null) ?
+                UserGroupInformation.createRemoteUser(httpRequest.getRemoteUser()) : null;
+
+            if (requestUgi != null) {
+              requestUgi = UserGroupInformation.createProxyUser(doAsUser,
+                  requestUgi);
+              try {
+                ProxyUsers.authorize(requestUgi, request.getRemoteAddr());
+
+                KerberosToken kerberosToken = new KerberosToken(doAsUser, token.toString());
+                SecurityUtils.getSubject().login(kerberosToken);
+              } catch (AuthorizationException ex) {
+                HttpExceptionUtils.createServletExceptionResponse(httpResponse,
+                    HttpServletResponse.SC_FORBIDDEN, ex);
+                LOG.warn("Proxy user Authentication exception", ex);
+                return;
+              }
+            }
+
+
+          } else {
+            KerberosToken kerberosToken = new KerberosToken(token.getUserName(), token.toString());
+            SecurityUtils.getSubject().login(kerberosToken);
+          }
           doFilter(filterChain, httpRequest, httpResponse);
         }
       } else {
