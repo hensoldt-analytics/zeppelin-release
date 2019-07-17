@@ -17,8 +17,6 @@
 
 package org.apache.zeppelin.realm.kerberos;
 
-import static org.apache.hadoop.security.authentication.server.ProxyUserAuthenticationFilter.PROXYUSER_PREFIX;
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.security.Groups;
 import org.apache.hadoop.security.UserGroupInformation;
@@ -274,7 +272,7 @@ public class KerberosRealm extends AuthorizingRealm {
       hadoopGroups = new Groups(hadoopConfig);
 
 
-      ProxyUsers.refreshSuperUserGroupsConfiguration(hadoopConfig, PROXYUSER_PREFIX);
+      ProxyUsers.refreshSuperUserGroupsConfiguration(hadoopConfig);
 
 
     } catch (Exception ex) {
