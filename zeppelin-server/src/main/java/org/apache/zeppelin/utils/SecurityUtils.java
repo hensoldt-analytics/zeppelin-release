@@ -16,6 +16,7 @@
  */
 package org.apache.zeppelin.utils;
 
+import com.google.common.collect.Sets;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -26,12 +27,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-
 import javax.naming.NamingException;
-
 import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.config.IniSecurityManagerFactory;
-import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.realm.text.IniRealm;
 import org.apache.shiro.subject.SimplePrincipalCollection;
@@ -41,11 +38,10 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.zeppelin.conf.ZeppelinConfiguration;
 import org.apache.zeppelin.realm.ActiveDirectoryGroupRealm;
 import org.apache.zeppelin.realm.LdapRealm;
+import org.apache.zeppelin.realm.kerberos.KerberosRealm;
 import org.apache.zeppelin.server.ZeppelinServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.Sets;
 
 /**
  * Tools for securing Zeppelin
@@ -165,6 +161,12 @@ public class SecurityUtils {
         } else if (name.equals("org.apache.zeppelin.realm.ActiveDirectoryGroupRealm")) {
           allRoles = ((ActiveDirectoryGroupRealm) realm).getListRoles();
           break;
+        } else if (name.equals("org.apache.zeppelin.realm.kerberos.KerberosRealm")) {
+          AuthorizationInfo auth = ((KerberosRealm) realm)
+              .doGetAuthorizationInfo(subject.getPrincipals());
+          if (auth != null) {
+            roles = new HashSet<>(auth.getRoles());
+          }
         }
       }
       if (allRoles != null) {
