@@ -531,7 +531,8 @@ public class KerberosRealm extends AuthorizingRealm {
                 KerberosToken kerberosToken = new KerberosToken(doAsUser, token.toString());
                 SecurityUtils.getSubject().login(kerberosToken);
               } catch (AuthorizationException ex) {
-                HttpExceptionUtils.createServletExceptionResponse(httpResponse,
+                HttpExceptionUtils.createServletExceptionResponse(
+                    (org.apache.hadoop.shaded.javax.servlet.http.HttpServletResponse) httpResponse,
                     HttpServletResponse.SC_FORBIDDEN, ex);
                 LOG.warn("Proxy user Authentication exception", ex);
                 return;
