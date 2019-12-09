@@ -32,3 +32,4 @@ BUG-108261:   Fix hadoop-azure dependency conflict
 (Jira in Apache Spark is IN PROGRESS)
 ZEPPELIN-3810: Support Spark 2.4
 HOTFIX-3649 : Zeppelin build failure on cdpd-master due to perfect-scrollbar
+BUG-125079. [ZEPPELIN-4471] Add HTTP security header X-Content-Type-Options
