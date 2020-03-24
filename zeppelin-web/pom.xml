@@ -38,9 +38,9 @@
   </prerequisites>
 
   <properties>
-    <node.version>v6.9.1</node.version>
+    <node.version>v13.11.0</node.version>
     <yarn.version>v0.18.1</yarn.version>
-    <npm.version>4.2.0</npm.version>
+    <npm.version>6.13.7</npm.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!--plugin versions-->
