@@ -77,3 +77,4 @@ ZEPPELIN-3072   Zeppelin UI becomes slow/unresponsive if there are too many note
 ZEPPELIN-3129   Zepplin UI Doesnt logs out in IE
 BUG-93529       Issues with Remote Storage and Kerberos
 
+HOTFIX-3295 update node version to 10.19.0 to fix build failure
