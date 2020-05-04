@@ -1,5 +1,6 @@
 Changes only in Hortonworks github and not in zeppelin 0.8.0 Apache Release
 
+CDPD-11571:     Zeppelin build failure on cdpd-master due to perfect-scrollbar
 BUG-121372:   Fix build (CDPD-1683, CDPD-2300, CDPD-1491)
 CDPD-1683:    KerberosRealm roles should match with local file system, if nothing is specified
 CDPD-2300:    Initialize proxyuser with proper configuration
