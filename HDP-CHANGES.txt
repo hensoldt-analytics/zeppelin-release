@@ -4,6 +4,7 @@ BUG-122387:   [ZEPPELIN-3701] Missing first several '0' and losing digital accur
 BUG-122250:   Update Jackson packages to version 2.10.0
 BUG-122114:   Update jackson-databind to version 2.10.0
 BUG-122134:   Update commons-beanutils to version 1.9.4
+CDPD-11571:     Zeppelin build failure on cdpd-master due to perfect-scrollbar
 BUG-121372:   Fix build (CDPD-1683, CDPD-2300, CDPD-1491)
 CDPD-1683:    KerberosRealm roles should match with local file system, if nothing is specified
 CDPD-2300:    Initialize proxyuser with proper configuration
